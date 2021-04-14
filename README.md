@@ -12,4 +12,4 @@ make
 
 Space will run/pause the time evolution and allow you to populate the grid. Escape to exit.
 
-NOTES: I know the implementation of boundary conditions in count_neighbors() are very clunky. Perhaps it would be better to increase the field of the game outside the boundaries of the window and deal with them there.
+NOTES: I know the implementation of boundary conditions in count_neighbors() is very clunky. Perhaps it would be better to increase the field of the game outside the boundaries of the window and deal with them there.
