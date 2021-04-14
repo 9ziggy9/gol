@@ -1,1 +1,1 @@
-Conway's Game of Life implemented with C in SDL2
+Conway's Game of Life implemented with SDL2 in C
