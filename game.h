@@ -1,9 +1,11 @@
 #ifndef GAME_H_
 #define GAME_H_
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define COL_NUM 40
+#define TICKS 50000
+#define SIZE 2
+#define SCREEN_WIDTH (SIZE * 640)
+#define SCREEN_HEIGHT (SIZE * 480)
+#define COL_NUM (SIZE * 40)
 #define ROW_NUM ( 3*COL_NUM / 4 )
 #define CELL_WIDTH ( SCREEN_WIDTH / COL_NUM )
 #define CELL_HEIGHT ( SCREEN_HEIGHT / ROW_NUM )

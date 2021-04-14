@@ -86,7 +86,7 @@ int main(int argc, char** argv)
     SDL_RenderClear(renderer);
     render_board(renderer, &board, neighbors);
     SDL_RenderPresent(renderer);
-    usleep(60000);
+    usleep(TICKS);
   }
 
   SDL_DestroyWindow(window);

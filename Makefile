@@ -4,7 +4,7 @@
 CC := clang
 
 # set the compiler flags
-CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lm
+CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall
 
 # add header files here
 HDRS := game.h logic.h render.h

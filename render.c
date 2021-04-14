@@ -1,9 +1,8 @@
-#include <math.h>
 #include <SDL2/SDL.h>
 
 #include "./game.h"
-#include "./logic.h"
 #include "./render.h"
+#include "./logic.h"
 
 void render_board(SDL_Renderer* renderer, board_t* board,
                   int neighbors[COL_NUM][ROW_NUM])
