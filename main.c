@@ -73,6 +73,13 @@ int main(int argc, char** argv)
               break;
             }
           }
+          if (e.key.keysym.sym == SDLK_BACKSPACE) {
+            for (int i = 0; i < COL_NUM; i++) {
+              for (int j = 0; j < ROW_NUM; j++)
+                board.cell_state[i][j] = DEAD;
+            }
+            break;
+          }
           break;
         case SDL_MOUSEBUTTONDOWN:
           click_on_cell(&board,
