@@ -12,10 +12,9 @@
 
 void usage(void)
 {
-  printf("\nUsage: conway [-t ticks] [-s window_scale] [-c cell_size] \n\n-t\tSet number of ticks in microseconds.\n\t");
+  printf("\nUsage: conway [-t ticks] [-c cell_size] \n\n-t\tSet number of ticks in microseconds.\n\t");
   printf("Enter extremely low values at own peril.\n\tRecommended to stay in 30000-100000 range.\n\tDefaults to 50000.\n\n"); 
-  printf("-s\tSet window scale as percentage.\n\tDefaults to 50.\n");
-  printf("\n -c\tSet cell size in pixels.\n\tDefaults to 15.\n\n");
+  printf("\n -c\tSet cell size to small, medium or large.\n\tDefaults to small.\n\n");
 }
 
 int main(int argc, char** argv)
@@ -44,17 +43,22 @@ int main(int argc, char** argv)
   // Command line options.
   int opt;
 
-  while((opt = getopt(argc, argv, "t:s:c:h")) != -1) {
+  while((opt = getopt(argc, argv, "t:c:h")) != -1) {
     switch (opt) {
       case 't':
         TICKS = atoi(optarg);
         break;
-      case 's':
-        SCALE = atof(optarg) / 100;
-        break;
       case 'c':
-        board.CELL_WIDTH = atoi(optarg);
-        board.CELL_HEIGHT = board.CELL_WIDTH;
+        if (strcmp(optarg,"medium") == 0) {
+          board.CELL_WIDTH = 30;  
+          board.CELL_HEIGHT = 30;
+        } 
+        else if (strcmp(optarg,"large") == 0) {
+          board.CELL_WIDTH = 50;
+          board.CELL_HEIGHT = 50;
+        }
+        else
+          break;
         break;
       case 'h':
         usage();
