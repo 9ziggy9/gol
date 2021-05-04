@@ -18,4 +18,4 @@ For more advanced usage see ./conway -h
 
 NOTE:
 
-Currently there is a bug in the size of cell option. 8 pixels and below is throwing seg faults.
+Currently there is a bug in the size of cell option. 9 pixels and below is throwing seg faults.
