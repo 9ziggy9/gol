@@ -15,7 +15,3 @@ Space will run/pause the time evolution and allow you to populate the grid. Esca
 Tested on Void, Manjaro, FreeBSD and DragonflyBSD (with gcc). BSD make seems to work.
 
 For more advanced usage see ./conway -h
-
-NOTE:
-
-Unfortunately it appears I have given too much freedom in way of command line options and poor choices of -c -t can throw seg faults or even crash systems. For this reason I will be changing to a choice of 3 sane value for each.
