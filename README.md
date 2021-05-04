@@ -19,3 +19,5 @@ For more advanced usage see ./conway -h
 NOTE:
 
 Currently there is a bug in the size of cell option. 9 pixels and below is throwing seg faults.
+
+Also getting seg faults for window sizes which become sufficiently large; this should just be related to macro definitions of COL and ROW_NUM.
