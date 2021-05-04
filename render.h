@@ -6,10 +6,12 @@ void render_game(SDL_Renderer* renderer, board_t* board,
 
 void render_running_state(SDL_Renderer *renderer, board_t *board);
 
-void render_square(SDL_Renderer *renderer, int pos_x, int pos_y);
+void render_square(SDL_Renderer *renderer, int pos_x, int pos_y,
+                  board_t* board);
 
-void render_pause_state(SDL_Renderer *renderer, const board_t *board);
+void render_pause_state(SDL_Renderer *renderer, board_t *board);
 
-void pause_square(SDL_Renderer *renderer, int pos_x, int pos_y);
+void pause_square(SDL_Renderer *renderer, int pos_x, int pos_y,
+                  board_t* board);
 
 #endif // RENDER_H_

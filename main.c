@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <SDL2/SDL.h>
 
@@ -9,22 +10,109 @@
 #include "./logic.h"
 #include "./render.h"
 
+void usage(void)
+{
+  printf("\nUsage: conway [-t ticks] [-s window_scale] [-c cell_size] \n\n-t\tSet number of ticks in microseconds.\n\t");
+  printf("Enter extremely low values at own peril.\n\tRecommended to stay in 30000-100000 range.\n\tDefaults to 50000.\n\n"); 
+  printf("-s\tSet window scale as percentage.\n\tDefaults to 50.\n");
+  printf("\n -c\tSet cell size in pixels.\n\tDefaults to 15.\n\n");
+}
+
 int main(int argc, char** argv)
 {
+  // Set default rate of ticks.
+  int TICKS = 50000;
+  
+  // Set initial window scaling factor
+  float SCALE = 0.5;
+
+  // Configure board initial state.
+  board_t board = {
+    .game_state = PAUSE_STATE
+  };
+
+  board.CELL_WIDTH = 15; // Reasonable default size
+  board.CELL_HEIGHT = 15;
+
+  for (int i = 0; i < COL_NUM; i++) {
+    for (int j = 0; j < ROW_NUM; j++)
+      board.cell_state[i][j] = DEAD;
+  }
+
+  int neighbors[COL_NUM][ROW_NUM] = {DEAD};
+
+  // Command line options.
+  int opt;
+
+  while((opt = getopt(argc, argv, "t:s:c:h")) != -1) {
+    switch (opt) {
+      case 't':
+        TICKS = atoi(optarg);
+        break;
+      case 's':
+        SCALE = atof(optarg) / 100;
+        break;
+      case 'c':
+        board.CELL_WIDTH = atoi(optarg);
+        board.CELL_HEIGHT = board.CELL_WIDTH;
+        break;
+      case 'h':
+        usage();
+        exit(EXIT_SUCCESS);
+        break;
+      case '?':
+        if (optopt == 't' || optopt == 's' || optopt == 'c')
+          fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+        else if (isprint (optopt))
+          fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+        else
+          fprintf (stderr, "Unknown option character `\\x%x'.\n", optopt);
+        printf("Setting default options.\n");
+        usage();
+        break;
+      default:
+        printf("Setting default options.\n");
+        usage();
+        break;
+    }
+  }
+  
+  // Initialize SDL subsystem
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     fprintf(stderr, "Could not initialize SDL2: %s\n", SDL_GetError());
     return EXIT_FAILURE;
   }
+  
+  // Grab display dimensions.
+  SDL_DisplayMode DM;
+  SDL_GetCurrentDisplayMode(0, &DM);
+  
+  // Set and scale window dimensions.
+  int SCREEN_WIDTH = DM.w;
+  int SCREEN_HEIGHT = DM.h;
+  SCREEN_WIDTH = SCREEN_WIDTH * SCALE ;
+  SCREEN_HEIGHT = SCREEN_HEIGHT * SCALE ;
 
+  // An SDL_Rect type called peeper whose scale is fed into
+  // SDL_RenderSetViewport() very shortly must also include
+  // an offset to ensure boundary conditions along x=0 and
+  // y=0 are sufficiently out of frame.
+  int PEEPER_SIZE = 10 * SCREEN_WIDTH; // Should be sufficient.
+  int PEEPER_OFFSET = PEEPER_SIZE / 4;
+
+  SDL_Rect peeper; // In future may take values from event loop.
+
+  // Create window
   SDL_Window *window = SDL_CreateWindow("Conway's Game",
                                         100, 100,
                                         SCREEN_WIDTH, SCREEN_HEIGHT,
-                                        SDL_WINDOW_SHOWN);
+                                        SDL_WINDOW_RESIZABLE);
   if (window == NULL) {
     fprintf(stderr, "SDL_CreateWindow Error: %s\n", SDL_GetError());
     return EXIT_FAILURE;
   }
 
+  // Create renderer
   SDL_Renderer *renderer = SDL_CreateRenderer(window, -1,
                                               SDL_RENDERER_ACCELERATED |
                                               SDL_RENDERER_PRESENTVSYNC);
@@ -33,17 +121,6 @@ int main(int argc, char** argv)
     fprintf(stderr, "SDL_CreateRenderer Error: %s\n", SDL_GetError());
     return EXIT_FAILURE;
   }
-
-  board_t board = {
-    .game_state = PAUSE_STATE
-  };
-
-  for (int i = 0; i < COL_NUM; i++) {
-    for (int j = 0; j < ROW_NUM; j++)
-      board.cell_state[i][j] = DEAD;
-  }
-
-  int neighbors[COL_NUM][ROW_NUM] = {DEAD};
 
   // Initiate event
   SDL_Event e;
@@ -83,12 +160,21 @@ int main(int argc, char** argv)
           break;
         case SDL_MOUSEBUTTONDOWN:
           click_on_cell(&board,
-                        e.button.y / CELL_HEIGHT,
-                        e.button.x / CELL_WIDTH);
+                        (e.button.y + PEEPER_OFFSET) / board.CELL_HEIGHT,
+                        (e.button.x + PEEPER_OFFSET) / board.CELL_WIDTH);
           break;
         default: {}
       }
     }
+
+    // Assignment to viewport
+    peeper.x = -PEEPER_OFFSET;
+    peeper.y = -PEEPER_OFFSET;
+    peeper.w = PEEPER_SIZE;
+    peeper.h = PEEPER_SIZE;
+    SDL_RenderSetViewport(renderer, &peeper);
+
+    // Draw
     SDL_SetRenderDrawColor(renderer, 40, 40, 40, 1);
     SDL_RenderClear(renderer);
     render_board(renderer, &board, neighbors);
@@ -96,6 +182,7 @@ int main(int argc, char** argv)
     usleep(TICKS);
   }
 
+  // Clean up
   SDL_DestroyWindow(window);
   SDL_Quit();
 

@@ -27,47 +27,47 @@ void render_running_state(SDL_Renderer *renderer, board_t *board)
 
   for (int i = 0; i < COL_NUM; i++) {
     for (int j = 0; j < ROW_NUM; j++) {
-      pos_x = i * CELL_WIDTH;
-      pos_y = j * CELL_HEIGHT;
+      pos_x = i * board->CELL_WIDTH;
+      pos_y = j * board->CELL_HEIGHT;
       if (board->cell_state[i][j] == ALIVE)
-        render_square(renderer, pos_x, pos_y);
+        render_square(renderer, pos_x, pos_y, board);
     }
   }
 }
 
-void render_pause_state(SDL_Renderer *renderer, const board_t *board)
+void render_pause_state(SDL_Renderer *renderer, board_t *board)
 {
   int pos_x = 0;
   int pos_y = 0;
 
   for (int i = 0; i < COL_NUM; i++) {
     for (int j = 0; j < ROW_NUM; j++) {
-      pos_x = i * CELL_WIDTH;
-      pos_y = j * CELL_HEIGHT;
+      pos_x = i * board->CELL_WIDTH;
+      pos_y = j * board->CELL_HEIGHT;
       if (board->cell_state[i][j] == ALIVE)
-        pause_square(renderer, pos_x, pos_y);
+        pause_square(renderer, pos_x, pos_y, board);
     }
   }
 }
 
-void render_square(SDL_Renderer *renderer, int pos_x, int pos_y)
+void render_square(SDL_Renderer *renderer, int pos_x, int pos_y, board_t* board)
 {
   SDL_Rect cell;
   cell.x = pos_x;
   cell.y = pos_y;
-  cell.w = CELL_WIDTH - 1;
-  cell.h = CELL_HEIGHT - 1;
+  cell.w = board->CELL_WIDTH - 1;
+  cell.h = board->CELL_HEIGHT - 1;
   SDL_SetRenderDrawColor(renderer, 142, 192, 124, 1);
   SDL_RenderFillRect(renderer, &cell);
 }
 
-void pause_square(SDL_Renderer *renderer, int pos_x, int pos_y)
+void pause_square(SDL_Renderer *renderer, int pos_x, int pos_y, board_t* board)
 {
   SDL_Rect cell;
   cell.x = pos_x;
   cell.y = pos_y;
-  cell.w = CELL_WIDTH - 1;
-  cell.h = CELL_HEIGHT - 1;
+  cell.w = board->CELL_WIDTH - 1;
+  cell.h = board->CELL_HEIGHT - 1;
   SDL_SetRenderDrawColor(renderer, 146, 131, 116, 1);
   SDL_RenderFillRect(renderer, &cell);
 }
