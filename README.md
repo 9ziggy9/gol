@@ -8,8 +8,10 @@ cd gol
 
 make
 
-./conway [-t ticks] [-s window_scale] [-c cell_size]
+./conway
 
 Space will run/pause the time evolution and allow you to populate the grid. Escape to exit. Window should be resizable now. Please report any bugs and I'll try to fix them immediately.
 
 Tested on Void, Manjaro, FreeBSD and DragonflyBSD (with gcc). BSD make seems to work.
+
+For more advanced usage see ./conway -h
