@@ -198,8 +198,6 @@ int main(int argc, char** argv)
 
     // Get window measurements in real time.
     SDL_GetWindowSize(window, &window_width, &window_height);
-    printf("%d,%d\n", maximum_width, maximum_height );
-    printf("%d,%d\n", window_width, window_height );
 
     // Don't allow overflow.
     if (window_width > maximum_width) {
