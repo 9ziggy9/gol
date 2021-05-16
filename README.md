@@ -6,6 +6,8 @@ git clone https://github.com/9ziggy9/gol.git
 
 cd gol
 
+mkdir build
+
 cd build
 
 cmake .. && make
