@@ -1,7 +1,7 @@
 #ifndef RENDER_H_
 #define RENDER_H_
 
-void render_game(SDL_Renderer* renderer, board_t* board, 
+void render_board(SDL_Renderer* renderer, board_t* board, 
                  int neighbors[COL_NUM][ROW_NUM]);
 
 void render_running_state(SDL_Renderer *renderer, board_t *board);

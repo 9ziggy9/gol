@@ -76,6 +76,7 @@ int main(int argc, char** argv)
         break;
     }
   }
+
   
   // Initialize SDL subsystem
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -104,9 +105,9 @@ int main(int argc, char** argv)
 
   // Create window
   SDL_Window *window = SDL_CreateWindow("Conway's Game",
-                                        100, 100,
+                                        1, 1,
                                         SCREEN_WIDTH, SCREEN_HEIGHT,
-                                        SDL_WINDOW_RESIZABLE);
+                                        SDL_WINDOW_SHOWN);
   if (window == NULL) {
     fprintf(stderr, "SDL_CreateWindow Error: %s\n", SDL_GetError());
     return EXIT_FAILURE;
