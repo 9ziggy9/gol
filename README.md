@@ -1,8 +1,8 @@
 Conway's Game of Life implemented with SDL2 in C
 
-To install make sure you have requisite SDL2 libraries and cmake.
+To install make sure you have requisite SDL2 libraries and cmake. You MUST use the recursive flag to pull in the FindSDL2.cmake submodules.
 
-git clone https://github.com/9ziggy9/gol.git
+git clone --recursive https://github.com/9ziggy9/gol.git
 
 cd gol
 
