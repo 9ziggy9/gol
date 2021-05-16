@@ -2,7 +2,7 @@
 
 ### You MUST install the SDL2 library and cmake before going any further.
 
-## Automated Installation (Linux/BSD and possibly Mac)
+## Automated Installation (Linux possibly Mac)
 * git clone https://github.com/9ziggy9/gol.git
 * cd gol
 * chmod +x install.sh
@@ -10,7 +10,7 @@
 * ./conway
 
 
-## Manual Installation
+## Manual Installation (Linux possibly Mac)
 #### To install manually make sure you have requisite SDL2 libraries and cmake. You MUST use the recursive flag to pull in the FindSDL2.cmake submodules. (Or git submodule update --init after the fact).
 
 * git clone --recursive https://github.com/9ziggy9/gol.git
@@ -23,6 +23,8 @@
 
 Note that by default, the binary is targeted at the originating folder.
 
+## Installation for FreeBSD/Dragonfly
+It's the damndest thing but I cannot figure out why my original makefile works here yet the cmake build does not. No matter, this can still be installed via a makefile located here: https://github.com/9ziggy9/C_Trash/blob/main/Makefile. Place that makefile in the directory and simply run make. Of course, on Dragonfly you will have to change the CC option to gcc.
 
 ## Notes
 Space will run/pause the time evolution and allow you to populate the grid. Escape to exit. Window should be resizable now. Please report any bugs and I'll try to fix them immediately.
