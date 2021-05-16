@@ -33,7 +33,7 @@ Note that by default, the binary is targeted at the originating folder. The buil
 * ./conway
 
 ## Notes
-Space will run/pause the time evolution and allow you to populate the grid. Escape to exit. Window should be resizable now. Please report any bugs and I'll try to fix them immediately.
+Space will run/pause the time evolution and allow you to populate the grid. Escape to exit. Backspace will clear the screen. Window should be resizable now. Please report any bugs and I'll try to fix them immediately.
 
 For more advanced usage such as changing cell size and rate of time evolution see ./conway -h:
 
@@ -50,5 +50,3 @@ Usage: conway [-t ticks] [-c cell_size]
 
 
 The inclusion of the FindSDL2.cmake modules should make this port to just about anything. If you have an issue on your system, please let me know.
-
-I have previously added a keydown event to clear screen, I will bring that back ASAP.
