@@ -23,5 +23,8 @@ set(HEADERS
   game.h
 )
 
+set(CMAKE_SYSTEM_PREFIX_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+
 add_executable(conway ${SRCS} ${HEADERS})
+install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(${PROJECT_NAME} SDL2::Main)
