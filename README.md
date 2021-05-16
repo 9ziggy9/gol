@@ -22,7 +22,7 @@ Note that if install.sh is not marked executable by default you mut run chmod +x
 * cd ..
 * ./conway
 
-Note that by default, the binary is targeted at the originating folder.
+Note that by default, the binary is targeted at the originating folder. The build folder can be discarded; rm -rf build
 
 ## Installation via Makefile (for FreeBSD/Dragonfly especially)
 #### It's the damndest thing but I cannot figure out why my original makefile works here yet the cmake build does not. No matter, I've added a branch so that installation via the traditional Makefile is possible. Dragonfly/gcc users remember to change CC flag of Makefile to gcc.
