@@ -13,7 +13,7 @@
 void usage(void)
 {
   printf("\nUsage: conway [-t ticks] [-c cell_size] \n\n-t\tSet number of ticks in microseconds.\n\t");
-  printf("Enter extremely low values at own peril.\n\tRecommended to stay in 30000-100000 range.\n\tDefaults to 50000.\n\n"); 
+  printf("Enter extremely low values at own peril.\n\tRecommended to stay in 30000-100000 range.\n\tDefaults to 50000.\n\n");
   printf("\n -c\tSet cell size to small, medium or large.\n\tDefaults to small.\n\n");
 }
 
@@ -21,9 +21,13 @@ int main(int argc, char** argv)
 {
   // Set default rate of ticks.
   int TICKS = 50000;
-  
+
   // Set initial window scaling factor
   float SCALE = 0.5;
+
+  // This will store window dimension information.
+  int window_width;
+  int window_height;
 
   // Configure board initial state.
   board_t board = {
@@ -50,9 +54,9 @@ int main(int argc, char** argv)
         break;
       case 'c':
         if (strcmp(optarg,"medium") == 0) {
-          board.CELL_WIDTH = 30;  
+          board.CELL_WIDTH = 30;
           board.CELL_HEIGHT = 30;
-        } 
+        }
         else if (strcmp(optarg,"large") == 0) {
           board.CELL_WIDTH = 50;
           board.CELL_HEIGHT = 50;
@@ -81,17 +85,17 @@ int main(int argc, char** argv)
     }
   }
 
-  
+
   // Initialize SDL subsystem
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     fprintf(stderr, "Could not initialize SDL2: %s\n", SDL_GetError());
     return EXIT_FAILURE;
   }
-  
+
   // Grab display dimensions.
   SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
-  
+
   // Set and scale window dimensions.
   int SCREEN_WIDTH = DM.w;
   int SCREEN_HEIGHT = DM.h;
@@ -129,7 +133,7 @@ int main(int argc, char** argv)
 
   // Initiate event
   SDL_Event e;
-  bool quit = false; 
+  bool quit = false;
   while (!quit) {
     //Poll event and provide event type to switch statement
     while (SDL_PollEvent(&e)) {
@@ -167,6 +171,7 @@ int main(int argc, char** argv)
           click_on_cell(&board,
                         (e.button.y + PEEPER_OFFSET) / board.CELL_HEIGHT,
                         (e.button.x + PEEPER_OFFSET) / board.CELL_WIDTH);
+          printf("%d, %d\n", e.button.x, e.button.y);
           break;
         default: {}
       }
@@ -178,6 +183,33 @@ int main(int argc, char** argv)
     peeper.w = PEEPER_SIZE;
     peeper.h = PEEPER_SIZE;
     SDL_RenderSetViewport(renderer, &peeper);
+
+    // Calculate upper left hand corner and then find domain of array used.
+    const int origin_x = PEEPER_OFFSET / board.CELL_WIDTH;
+    const int origin_y = PEEPER_OFFSET / board.CELL_HEIGHT;
+    const int domain_x = COL_NUM - origin_x;
+    const int domain_y = ROW_NUM - origin_y;
+
+    // Use cell size to determine maximum possible window size without allowing
+    // array overflow. This will be tested against SDL window size polls.
+    // There be dragons here.
+    const int maximum_width = domain_x * board.CELL_WIDTH;
+    const int maximum_height = domain_y * board.CELL_HEIGHT;
+
+    // Get window measurements in real time.
+    SDL_GetWindowSize(window, &window_width, &window_height);
+    printf("%d,%d\n", maximum_width, maximum_height );
+    printf("%d,%d\n", window_width, window_height );
+
+    // Don't allow overflow.
+    if (window_width > maximum_width) {
+      printf("WARNING: Attempting to exceed max window size in x.");
+      SDL_SetWindowSize(window, maximum_width, window_height);
+    }
+    if (window_height > maximum_height) {
+      printf("WARNING: Attempting to exceed max window size in y.");
+      SDL_SetWindowSize(window, window_width, maximum_height);
+    }
 
     // Draw
     SDL_SetRenderDrawColor(renderer, 40, 40, 40, 1);
