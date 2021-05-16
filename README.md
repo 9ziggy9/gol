@@ -5,9 +5,10 @@
 ## Automated Installation via cmake (Linux possibly Mac)
 * git clone https://github.com/9ziggy9/gol.git
 * cd gol
-* chmod +x install.sh
 * ./install.sh
 * ./conway
+
+Note that if install.sh is not marked executable by default you mut run chmod +x install.sh.
 
 
 ## Manual Installation via cmake (Linux possibly Mac)
