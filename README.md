@@ -1,4 +1,4 @@
-# Conway's Game of Life implemented in C by use of SDL2
+# Conway's Game of Life implemented in C and SDL2
 
 ### You MUST install the SDL2 library and cmake before going any further.
 
